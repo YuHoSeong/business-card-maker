@@ -1,16 +1,15 @@
 import React from 'react';
-import type { authType } from '../../service/auth_service';
 import styles from './header.module.css';
 
-function Header({ authService }: { authService: authType }) {
-  function onLogout(): boolean {
-    return true;
-  }
+type HeaderProps = {
+  onLogout?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+};
 
+function Header(props: HeaderProps) {
   return (
     <header className={styles.header}>
-      {onLogout() === true && (
-        <button className={styles.logout} onClick={onLogout}>
+      {props.onLogout && (
+        <button className={styles.logout} onClick={props.onLogout}>
           Logout
         </button>
       )}
