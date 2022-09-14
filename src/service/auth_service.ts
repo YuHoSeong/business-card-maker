@@ -1,7 +1,7 @@
 import * as fbAuth from 'firebase/auth';
 import app from './firebase';
 
-type providerType = 'Google' | 'Github';
+export type providerType = 'Google' | 'Github';
 export type authType = {
   login(s: providerType): Promise<fbAuth.UserCredential>;
 };
