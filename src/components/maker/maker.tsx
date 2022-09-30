@@ -29,11 +29,16 @@ const Maker = (props: MakerProps) => {
     });
   });
 
+  const addCard = (card: card) => {
+    const updated = [...cards, card];
+    setCards(updated);
+  };
+
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
       <div className={styles.container}>
-        <Editor cards={cards} />
+        <Editor addCard={addCard} cards={cards} />
         <Preview cards={cards} />
       </div>
       <Footer />
