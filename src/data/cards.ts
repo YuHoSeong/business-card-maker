@@ -10,8 +10,12 @@ export type card = {
   fileURL: string;
 };
 
-export let cardsData: card[] = [
-  {
+export type cards = {
+  [key: string]: card;
+};
+
+export let cardsData: cards = {
+  '1': {
     id: '1',
     name: 'HoSeong',
     company: 'Samsung',
@@ -22,7 +26,7 @@ export let cardsData: card[] = [
     fileName: 'HoSeong',
     fileURL: '',
   },
-  {
+  '2': {
     id: '2',
     name: 'HoSeong',
     company: 'Samsung',
@@ -31,9 +35,9 @@ export let cardsData: card[] = [
     email: 'email',
     message: 'go for it',
     fileName: 'HoSeong',
-    fileURL: 'HoSeong.png',
+    fileURL: '',
   },
-  {
+  '3': {
     id: '3',
     name: 'HoSeong',
     company: 'Samsung',
@@ -44,4 +48,4 @@ export let cardsData: card[] = [
     fileName: 'HoSeong',
     fileURL: '',
   },
-];
+};

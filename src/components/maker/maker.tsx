@@ -6,14 +6,14 @@ import Footer from '../footer/footer';
 import Header from '../header/header';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
-import { card, cardsData } from '../../data/cards';
+import { cards, card, cardsData } from '../../data/cards';
 
 type MakerProps = {
   authService: authType;
 };
 
 const Maker = (props: MakerProps) => {
-  const [cards, setCards] = useState<card[]>(cardsData);
+  const [cards, setCards] = useState<cards>(cardsData);
 
   const navigate = useNavigate();
 
@@ -29,16 +29,31 @@ const Maker = (props: MakerProps) => {
     });
   });
 
-  const addCard = (card: card) => {
-    const updated = [...cards, card];
-    setCards(updated);
+  const creatOrUpdateCard = (card: card) => {
+    setCards((cards: cards): cards => {
+      const updated = { ...cards };
+      updated[card.id] = card;
+      return updated;
+    });
   };
 
+  const deleteCard = (card: card) => {
+    setCards((cards: cards): cards => {
+      const updated = { ...cards };
+      delete updated[card.id];
+      return updated;
+    });
+  };
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
       <div className={styles.container}>
-        <Editor addCard={addCard} cards={cards} />
+        <Editor
+          cards={cards}
+          addCard={creatOrUpdateCard}
+          updateCard={creatOrUpdateCard}
+          deleteCard={deleteCard}
+        />
         <Preview cards={cards} />
       </div>
       <Footer />

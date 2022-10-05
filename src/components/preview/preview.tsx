@@ -1,10 +1,10 @@
 import React from 'react';
-import { card } from '../../data/cards';
+import { cards } from '../../data/cards';
 import Card from '../card/card';
 import styles from './preview.module.css';
 
 type PreviewProps = {
-  cards: card[];
+  cards: cards;
 };
 
 const Preview = (props: PreviewProps) => {
@@ -12,8 +12,8 @@ const Preview = (props: PreviewProps) => {
     <section className={styles.preview}>
       <h1 className={styles.title}>Card Preview</h1>
       <ul className={styles.cards}>
-        {props.cards.map((card) => (
-          <Card key={card.id} card={card} />
+        {Object.keys(props.cards).map((key) => (
+          <Card key={key} card={props.cards[key]} />
         ))}
       </ul>
     </section>
