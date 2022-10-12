@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
+import { FileInputProps } from '../..';
 import { cards, card } from '../../data/cards';
 import CardAddForm from '../card_add_form/card_add_form';
 import CardEditorForm from '../card_editor_form/card_editor_form';
 import styles from './editor.module.css';
 
 type EditorProps = {
+  FileInput(props?: FileInputProps): ReactNode;
   cards: cards;
   addCard(card: card): void;
   updateCard(card: card): void;
@@ -18,12 +20,13 @@ const Editor = (props: EditorProps) => {
       {Object.keys(props.cards).map((key) => (
         <CardEditorForm
           key={key}
+          FileInput={props.FileInput}
           card={props.cards[key]}
           updateCard={props.updateCard}
           deleteCard={props.deleteCard}
         />
       ))}
-      <CardAddForm onAdd={props.addCard} />
+      <CardAddForm FileInput={props.FileInput} onAdd={props.addCard} />
     </section>
   );
 };

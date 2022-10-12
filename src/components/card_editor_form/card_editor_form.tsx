@@ -1,17 +1,17 @@
-import React, { useRef } from 'react';
+import React, { ReactNode, useRef } from 'react';
+import { FileInputProps } from '../..';
 import { card } from '../../data/cards';
 import Button from '../button/button';
-import ImageFileInput from '../image_file_input/image_file_input';
 import styles from './card_editor_form.module.css';
 
 type CardEditorFormProps = {
+  FileInput(props?: FileInputProps): ReactNode;
   card: card;
   updateCard(card: card): void;
   deleteCard(card: card): void;
 };
 
 const CardEditorForm = (props: CardEditorFormProps) => {
-  const formRef = useRef<HTMLFormElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const companyRef = useRef<HTMLInputElement>(null);
   const themeRef = useRef<HTMLSelectElement>(null);
@@ -88,9 +88,7 @@ const CardEditorForm = (props: CardEditorFormProps) => {
         onChange={onChange}
         defaultValue={message}
       ></textarea>
-      <div className={styles.fileInput}>
-        <ImageFileInput />
-      </div>
+      <div className={styles.fileInput}>{props.FileInput()}</div>
       <Button name="Delete" onClick={onSubmit} />
     </form>
   );

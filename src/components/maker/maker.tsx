@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authType } from '../../service/auth_service';
 import Editor from '../editor/editor';
@@ -7,9 +7,11 @@ import Header from '../header/header';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
 import { cards, card, cardsData } from '../../data/cards';
+import { FileInputProps } from '../..';
 
 type MakerProps = {
   authService: authType;
+  FileInput(props?: FileInputProps): ReactNode;
 };
 
 const Maker = (props: MakerProps) => {
@@ -53,6 +55,7 @@ const Maker = (props: MakerProps) => {
           addCard={creatOrUpdateCard}
           updateCard={creatOrUpdateCard}
           deleteCard={deleteCard}
+          FileInput={props.FileInput}
         />
         <Preview cards={cards} />
       </div>
