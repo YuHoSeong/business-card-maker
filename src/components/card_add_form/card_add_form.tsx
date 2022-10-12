@@ -1,15 +1,19 @@
-import React, { ReactNode, useRef } from 'react';
-import { FileInputProps } from '../..';
+import React, { ReactNode, useRef, useState } from 'react';
 import { card } from '../../data/cards';
 import Button from '../button/button';
+import { ImageFileInputProps } from '../image_file_input/image_file_input';
 import styles from './card_add_form.module.css';
 
 type CardAddFromPorps = {
   onAdd(card: card): void;
-  FileInput(props?: FileInputProps): ReactNode;
+  FileInput: (props: ImageFileInputProps) => JSX.Element;
+};
+export type file = {
+  fileName: string;
+  fileURL: string;
 };
 
-const CardAddForm = (props: CardAddFromPorps) => {
+const CardAddForm = ({ FileInput, onAdd }: CardAddFromPorps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const companyRef = useRef<HTMLInputElement>(null);
@@ -17,6 +21,8 @@ const CardAddForm = (props: CardAddFromPorps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const [file, setFile] = useState<file>({ fileName: '', fileURL: '' });
+
   const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const card = {
@@ -27,11 +33,19 @@ const CardAddForm = (props: CardAddFromPorps) => {
       title: titleRef.current?.value || '',
       email: emailRef.current?.value || '',
       message: messageRef.current?.value || '',
-      fileName: '',
-      fileURL: '',
+      fileName: file.fileName,
+      fileURL: file.fileURL,
     };
     formRef.current?.reset();
-    props.onAdd(card);
+    setFile({ fileName: '', fileURL: '' });
+    onAdd(card);
+  };
+  const onFileChange = (file: file) => {
+    console.log(file);
+    setFile({
+      fileName: file.fileName,
+      fileURL: file.fileURL,
+    });
   };
 
   return (
@@ -80,7 +94,9 @@ const CardAddForm = (props: CardAddFromPorps) => {
         name="message"
         placeholder="Message"
       ></textarea>
-      <div className={styles.fileInput}>{props.FileInput()}</div>
+      <div className={styles.fileInput}>
+        <FileInput name={file.fileName} onFileChange={onFileChange} />
+      </div>
       <Button name="Add" onClick={onSubmit} />
     </form>
   );

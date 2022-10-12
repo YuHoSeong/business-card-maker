@@ -7,11 +7,11 @@ import Header from '../header/header';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
 import { cards, card, cardsData } from '../../data/cards';
-import { FileInputProps } from '../..';
+import { ImageFileInputProps } from '../image_file_input/image_file_input';
 
 type MakerProps = {
   authService: authType;
-  FileInput(props?: FileInputProps): ReactNode;
+  FileInput: (props: ImageFileInputProps) => JSX.Element;
 };
 
 const Maker = (props: MakerProps) => {

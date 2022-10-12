@@ -23,7 +23,7 @@ export let cardsData: cards = {
     title: 'Software Engineer',
     email: 'email',
     message: 'go for it',
-    fileName: 'HoSeong',
+    fileName: '1',
     fileURL: '',
   },
   '2': {
@@ -38,7 +38,7 @@ export let cardsData: cards = {
     fileURL: '',
   },
   '3': {
-    id: '3',
+    id: 'HoSeong',
     name: 'HoSeong',
     company: 'Samsung',
     theme: 'colorful',

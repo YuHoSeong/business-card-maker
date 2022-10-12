@@ -4,15 +4,15 @@ import './index.module.css';
 import App from './App';
 import AuthService from './service/auth_service';
 import ImageUploader from './service/image_uploader';
-import ImageFileInput from './components/image_file_input/image_file_input';
+import ImageFileInput, {
+  ImageFileInputProps,
+} from './components/image_file_input/image_file_input';
 
-export type FileInputProps = {
-  
-};
+// Dependency Injection
 
 const authService = new AuthService();
 const imageUploader = new ImageUploader();
-const FileInput = (props?: FileInputProps) => {
+const FileInput = (props: ImageFileInputProps) => {
   return <ImageFileInput {...props} imageUploader={imageUploader} />;
 };
 

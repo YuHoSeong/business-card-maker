@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
-import { FileInputProps } from '../..';
 import { cards, card } from '../../data/cards';
 import CardAddForm from '../card_add_form/card_add_form';
 import CardEditorForm from '../card_editor_form/card_editor_form';
+import { ImageFileInputProps } from '../image_file_input/image_file_input';
 import styles from './editor.module.css';
 
 type EditorProps = {
-  FileInput(props?: FileInputProps): ReactNode;
+  FileInput: (props: ImageFileInputProps) => JSX.Element;
   cards: cards;
   addCard(card: card): void;
   updateCard(card: card): void;

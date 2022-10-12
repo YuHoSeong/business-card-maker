@@ -1,24 +1,30 @@
 import React, { ReactNode, useRef } from 'react';
-import { FileInputProps } from '../..';
 import { card } from '../../data/cards';
 import Button from '../button/button';
+import { file } from '../card_add_form/card_add_form';
+import { ImageFileInputProps } from '../image_file_input/image_file_input';
 import styles from './card_editor_form.module.css';
 
 type CardEditorFormProps = {
-  FileInput(props?: FileInputProps): ReactNode;
+  FileInput: (props: ImageFileInputProps) => JSX.Element;
   card: card;
   updateCard(card: card): void;
   deleteCard(card: card): void;
 };
 
-const CardEditorForm = (props: CardEditorFormProps) => {
+const CardEditorForm = ({
+  FileInput,
+  card,
+  updateCard,
+  deleteCard,
+}: CardEditorFormProps) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const companyRef = useRef<HTMLInputElement>(null);
   const themeRef = useRef<HTMLSelectElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
-  const { name, company, title, email, message, theme } = props.card;
+  const { name, company, title, email, message, theme, fileName } = card;
 
   const onChange = (
     event: React.ChangeEvent<
@@ -26,14 +32,25 @@ const CardEditorForm = (props: CardEditorFormProps) => {
     >
   ) => {
     if (event.currentTarget == null) return;
+    // console.log(event.currentTarget);
+
     event.preventDefault();
-    props.updateCard({
-      ...props.card,
+    updateCard({
+      ...card,
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
   const onSubmit = () => {
-    props.deleteCard(props.card);
+    deleteCard(card);
+  };
+
+  const onFileChange = (file: file) => {
+    // console.log(file);
+    updateCard({
+      ...card,
+      fileName: file.fileName,
+      fileURL: file.fileURL,
+    });
   };
 
   return (
@@ -88,7 +105,9 @@ const CardEditorForm = (props: CardEditorFormProps) => {
         onChange={onChange}
         defaultValue={message}
       ></textarea>
-      <div className={styles.fileInput}>{props.FileInput()}</div>
+      <div className={styles.fileInput}>
+        <FileInput name={fileName} onFileChange={onFileChange} />
+      </div>
       <Button name="Delete" onClick={onSubmit} />
     </form>
   );
