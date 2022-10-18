@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import ImageUploader from '../../service/image_uploader';
 import { file } from '../card_add_form/card_add_form';
 import styles from './image_file_input.module.css';
@@ -10,6 +10,8 @@ export type ImageFileInputProps = {
 };
 
 const ImageFileInput = (props: ImageFileInputProps) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const onButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event?.preventDefault();
@@ -17,26 +19,15 @@ const ImageFileInput = (props: ImageFileInputProps) => {
   };
 
   const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(event.target?.files?.item(0));
-    // console.log(event.target);
-
     if (event.target && event.target.files && props.imageUploader) {
+      setLoading(true);
       const uploaded = await props.imageUploader.upload(event.target.files[0]);
-      console.log(uploaded);
+      setLoading(false);
       props.onFileChange({
         fileName: uploaded.original_filename,
         fileURL: uploaded.url,
       });
     }
-    // const uploaded = await props.imageUploader.upload(
-    //   event.target.files?[0]
-    // );
-    // console.log(uploaded);
-
-    // props.onFileChange({
-    //   name: 'filename',
-    //   url: 'url',
-    // });
   };
 
   return (
@@ -49,9 +40,17 @@ const ImageFileInput = (props: ImageFileInputProps) => {
         name="file"
         onChange={onChange}
       />
-      <button className={styles.button} onClick={onButtonClick}>
-        {props.name || 'No file'}
-      </button>
+      {!loading && (
+        <button
+          className={`${styles.button} ${
+            props.name ? styles.pink : styles.grey
+          }`}
+          onClick={onButtonClick}
+        >
+          {props.name || 'No file'}
+        </button>
+      )}
+      {loading && <div className={styles.loading}></div>}
     </div>
   );
 };
