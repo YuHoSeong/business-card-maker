@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from 'react';
+import React, { useRef } from 'react';
 import { card } from '../../data/cards';
 import Button from '../button/button';
 import { file } from '../card_add_form/card_add_form';

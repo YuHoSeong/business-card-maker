@@ -1,21 +1,27 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { authType } from '../../service/auth_service';
 import Editor from '../editor/editor';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Preview from '../preview/preview';
 import styles from './maker.module.css';
-import { cards, card, cardsData } from '../../data/cards';
+import { cards, card } from '../../data/cards';
 import { ImageFileInputProps } from '../image_file_input/image_file_input';
+import { cardRepo } from '../../service/card_repository';
 
 type MakerProps = {
   authService: authType;
   FileInput: (props: ImageFileInputProps) => JSX.Element;
+  cardRepository: cardRepo;
 };
 
 const Maker = (props: MakerProps) => {
-  const [cards, setCards] = useState<cards>(cardsData);
+  const navigateState = useLocation().state;
+  const [cards, setCards] = useState<cards>({});
+  const [userId, setUserId] = useState<string>(
+    navigateState && navigateState.id
+  );
 
   const navigate = useNavigate();
 
@@ -24,8 +30,20 @@ const Maker = (props: MakerProps) => {
   }
 
   useEffect(() => {
+    if (!userId) {
+      return;
+    }
+    const stopSync = props.cardRepository.asyncCard(userId, (cards: cards) => {
+      setCards(cards);
+    });
+    return () => stopSync();
+  }, [userId]);
+
+  useEffect(() => {
     props.authService.onAuthChange((user) => {
-      if (!user) {
+      if (user) {
+        setUserId(user.uid);
+      } else {
         navigate('/');
       }
     });
@@ -37,6 +55,7 @@ const Maker = (props: MakerProps) => {
       updated[card.id] = card;
       return updated;
     });
+    props.cardRepository.saveCard(userId, card);
   };
 
   const deleteCard = (card: card) => {
@@ -45,6 +64,7 @@ const Maker = (props: MakerProps) => {
       delete updated[card.id];
       return updated;
     });
+    props.cardRepository.removeCard(userId, card);
   };
   return (
     <section className={styles.maker}>

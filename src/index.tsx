@@ -7,10 +7,12 @@ import ImageUploader from './service/image_uploader';
 import ImageFileInput, {
   ImageFileInputProps,
 } from './components/image_file_input/image_file_input';
+import CardRepository from './service/card_repository';
 
 // Dependency Injection
 
 const authService = new AuthService();
+const cardRepository = new CardRepository();
 const imageUploader = new ImageUploader();
 const FileInput = (props: ImageFileInputProps) => {
   return <ImageFileInput {...props} imageUploader={imageUploader} />;
@@ -21,6 +23,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App authService={authService} FileInput={FileInput} />
+    <App
+      cardRepository={cardRepository}
+      authService={authService}
+      FileInput={FileInput}
+    />
   </React.StrictMode>
 );

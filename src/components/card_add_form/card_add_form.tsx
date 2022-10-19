@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { card } from '../../data/cards';
 import Button from '../button/button';
 import { ImageFileInputProps } from '../image_file_input/image_file_input';

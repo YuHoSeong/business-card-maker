@@ -8,8 +8,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig);
 
-const auth = Auth.getAuth(app);
+const auth = Auth.getAuth(firebaseApp);
 
 export default auth;

@@ -6,7 +6,7 @@ import styles from './image_file_input.module.css';
 export type ImageFileInputProps = {
   imageUploader?: ImageUploader;
   name?: string;
-  onFileChange({}: file): void;
+  onFileChange({ fileName, fileURL }: file): void;
 };
 
 const ImageFileInput = (props: ImageFileInputProps) => {
