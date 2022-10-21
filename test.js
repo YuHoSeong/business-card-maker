@@ -1,23 +1,22 @@
-const cities = ['LA', 'LA'];
-const cacheSize = 0;
-let cache = [];
-let result = 0;
+const s = '{{4,2,3},{3},{2,3,4,1},{2,3}}';
 
-let temp = cities.map((city) => city.toLowerCase());
-for (let i = 0; i < cities.length; i++) {
-  if (cache.includes(temp[i])) {
-    result += 1;
-    cache = cache.filter((v) => v !== temp[i]);
-  } else {
-    result += 5;
-  }
-  if (cacheSize === 0) continue;
-  if (cache.length >= cacheSize) {
-    cache.shift();
-    cache.push(temp[i]);
-  } else {
-    cache.push(temp[i]);
-  }
-  // console.log(cache);
-}
-console.log(result);
+// let test = s.replace(/{/g, '').replace(/}/g, '').split(',');
+// let obj = [];
+// test.map((v) => {
+//   if (!obj.includes(Number(v))) {
+//     obj[test.filter((c) => c === v).length - 1] = Number(v);
+//   }
+//   return v;
+// });
+
+// console.log(obj.reverse());
+
+JSON.parse(s.replace(/{/g, '[').replace(/}/g, ']'))
+  .sort((a, b) => a.length - b.length)
+  .reduce((arr, v, n) => {
+    console.log(arr, v, n);
+    if (n) {
+      return arr.concat(v.filter((f) => !arr.includes(f)));
+    }
+    return v;
+  }, []);

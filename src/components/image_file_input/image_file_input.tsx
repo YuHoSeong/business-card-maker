@@ -42,6 +42,7 @@ const ImageFileInput = (props: ImageFileInputProps) => {
       />
       {!loading && (
         <button
+          type="button"
           className={`${styles.button} ${
             props.name ? styles.pink : styles.grey
           }`}

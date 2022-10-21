@@ -37,7 +37,7 @@ const Maker = (props: MakerProps) => {
       setCards(cards);
     });
     return () => stopSync();
-  }, [userId]);
+  }, [userId, props.cardRepository]);
 
   useEffect(() => {
     props.authService.onAuthChange((user) => {
@@ -47,7 +47,7 @@ const Maker = (props: MakerProps) => {
         navigate('/');
       }
     });
-  });
+  }, [props.authService, userId, navigate]);
 
   const creatOrUpdateCard = (card: card) => {
     setCards((cards: cards): cards => {

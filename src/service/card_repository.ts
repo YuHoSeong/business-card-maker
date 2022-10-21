@@ -1,4 +1,5 @@
-import { getDatabase, remove, ref, set, onValue, off } from 'firebase/database';
+import { remove, ref, set, onValue, off } from 'firebase/database';
+import { firebaseDatabase } from './firebase';
 import { card } from '../data/cards';
 
 export type cardRepo = {
@@ -9,18 +10,15 @@ export type cardRepo = {
 
 class CardRepository {
   saveCard(userId: string, card: card) {
-    const db = getDatabase();
-    set(ref(db, `${userId}/cards/${card.id}`), card);
+    set(ref(firebaseDatabase, `${userId}/cards/${card.id}`), card);
   }
 
   removeCard(userId: string, card: card) {
-    const db = getDatabase();
-    remove(ref(db, `${userId}/cards/${card.id}`));
+    remove(ref(firebaseDatabase, `${userId}/cards/${card.id}`));
   }
 
   asyncCard(userId: string, onUpdate: Function) {
-    const db = getDatabase();
-    const cardRef = ref(db, `${userId}/cards`);
+    const cardRef = ref(firebaseDatabase, `${userId}/cards`);
     onValue(cardRef, (snapshot) => {
       const data = snapshot.val();
       data && onUpdate(data);

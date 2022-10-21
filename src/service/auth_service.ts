@@ -1,27 +1,45 @@
-import * as Auth from 'firebase/auth';
-import auth from './firebase';
+// import * as Auth from 'firebase/auth';
+import {
+  signInWithPopup,
+  User,
+  UserCredential,
+  onAuthStateChanged,
+  signOut,
+} from 'firebase/auth';
+import { auth, githubAuthProvider, googleAuthProvider } from './firebase';
 
-export type providerType = 'Google' | 'Github';
+// export type providerType = 'Google' | 'Github';
 export type authType = {
-  login(s: providerType): Promise<Auth.UserCredential>;
-  onAuthChange(onUserChanged: (user: Auth.User | null) => void): void;
+  login(providerName: string): Promise<UserCredential>;
+  onAuthChange(onUserChanged: (user: User | null) => void): void;
   logout(): void;
 };
 
 class AuthService {
-  login(providerName: providerType) {
-    const authProvider = new Auth[`${providerName}AuthProvider`]();
-    return Auth.signInWithPopup(auth, authProvider);
+  login(providerName: string) {
+    const authProvider = this.getProvider(providerName);
+    return signInWithPopup(auth, authProvider);
   }
 
-  onAuthChange(onUserChanged: (user: Auth.User | null) => void) {
-    Auth.onAuthStateChanged(auth, (user) => {
+  onAuthChange(onUserChanged: (user: User | null) => void) {
+    onAuthStateChanged(auth, (user) => {
       onUserChanged(user);
     });
   }
 
   logout() {
-    Auth.signOut(auth);
+    signOut(auth);
+  }
+
+  getProvider(providerName: string) {
+    switch (providerName) {
+      case 'Google':
+        return googleAuthProvider;
+      case 'Github':
+        return githubAuthProvider;
+      default:
+        throw new Error(`not supported provider : ${providerName}`);
+    }
   }
 }
 

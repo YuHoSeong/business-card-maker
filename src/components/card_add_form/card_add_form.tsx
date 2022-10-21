@@ -41,7 +41,6 @@ const CardAddForm = ({ FileInput, onAdd }: CardAddFromPorps) => {
     onAdd(card);
   };
   const onFileChange = (file: file) => {
-    console.log(file);
     setFile({
       fileName: file.fileName,
       fileURL: file.fileURL,
