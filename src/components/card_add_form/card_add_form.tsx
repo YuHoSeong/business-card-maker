@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { card } from '../../data/cards';
 import Button from '../button/button';
 import { ImageFileInputProps } from '../image_file_input/image_file_input';
@@ -6,14 +6,18 @@ import styles from './card_add_form.module.css';
 
 type CardAddFromPorps = {
   onAdd(card: card): void;
-  FileInput: (props: ImageFileInputProps) => JSX.Element;
+  FileInput: React.MemoExoticComponent<
+    (props: ImageFileInputProps) => JSX.Element
+  >;
 };
 export type file = {
-  fileName: string;
-  fileURL: string;
+  fileName: string | null;
+  fileURL: string | null;
 };
 
-const CardAddForm = ({ FileInput, onAdd }: CardAddFromPorps) => {
+const CardAddForm = memo(({ FileInput, onAdd }: CardAddFromPorps) => {
+  // console.log('addform');
+
   const formRef = useRef<HTMLFormElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const companyRef = useRef<HTMLInputElement>(null);
@@ -21,7 +25,7 @@ const CardAddForm = ({ FileInput, onAdd }: CardAddFromPorps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
-  const [file, setFile] = useState<file>({ fileName: '', fileURL: '' });
+  const [file, setFile] = useState<file>({ fileName: null, fileURL: null });
 
   const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -37,7 +41,7 @@ const CardAddForm = ({ FileInput, onAdd }: CardAddFromPorps) => {
       fileURL: file.fileURL,
     };
     formRef.current?.reset();
-    setFile({ fileName: '', fileURL: '' });
+    setFile({ fileName: null, fileURL: null });
     onAdd(card);
   };
   const onFileChange = (file: file) => {
@@ -99,6 +103,6 @@ const CardAddForm = ({ FileInput, onAdd }: CardAddFromPorps) => {
       <Button name="Add" onClick={onSubmit} />
     </form>
   );
-};
+});
 
 export default CardAddForm;

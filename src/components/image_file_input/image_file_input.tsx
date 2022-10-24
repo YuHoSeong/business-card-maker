@@ -1,15 +1,17 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import ImageUploader from '../../service/image_uploader';
 import { file } from '../card_add_form/card_add_form';
 import styles from './image_file_input.module.css';
 
 export type ImageFileInputProps = {
   imageUploader?: ImageUploader;
-  name?: string;
+  name?: string | null;
   onFileChange({ fileName, fileURL }: file): void;
 };
 
-const ImageFileInput = (props: ImageFileInputProps) => {
+const ImageFileInput = memo((props: ImageFileInputProps) => {
+  // console.log('fileinput');
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -54,6 +56,6 @@ const ImageFileInput = (props: ImageFileInputProps) => {
       {loading && <div className={styles.loading}></div>}
     </div>
   );
-};
+});
 
 export default ImageFileInput;

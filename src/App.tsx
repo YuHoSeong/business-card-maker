@@ -9,23 +9,25 @@ import { cardRepo } from './service/card_repository';
 
 type AppProps = {
   authService: authType;
-  FileInput: (props: ImageFileInputProps) => JSX.Element;
+  FileInput: React.MemoExoticComponent<
+    (props: ImageFileInputProps) => JSX.Element
+  >;
   cardRepository: cardRepo;
 };
 
-function App(props: AppProps) {
+function App({ authService, FileInput, cardRepository }: AppProps) {
   return (
     <div className={styles.app}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login authService={props.authService} />} />
+          <Route path="/" element={<Login authService={authService} />} />
           <Route
             path="/maker"
             element={
               <Maker
-                FileInput={props.FileInput}
-                authService={props.authService}
-                cardRepository={props.cardRepository}
+                FileInput={FileInput}
+                authService={authService}
+                cardRepository={cardRepository}
               />
             }
           ></Route>

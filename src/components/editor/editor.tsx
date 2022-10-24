@@ -6,7 +6,9 @@ import { ImageFileInputProps } from '../image_file_input/image_file_input';
 import styles from './editor.module.css';
 
 type EditorProps = {
-  FileInput: (props: ImageFileInputProps) => JSX.Element;
+  FileInput: React.MemoExoticComponent<
+    (props: ImageFileInputProps) => JSX.Element
+  >;
   cards: cards;
   addCard(card: card): void;
   updateCard(card: card): void;

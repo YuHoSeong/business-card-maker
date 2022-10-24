@@ -12,7 +12,9 @@ import { cardRepo } from '../../service/card_repository';
 
 type MakerProps = {
   authService: authType;
-  FileInput: (props: ImageFileInputProps) => JSX.Element;
+  FileInput: React.MemoExoticComponent<
+    (props: ImageFileInputProps) => JSX.Element
+  >;
   cardRepository: cardRepo;
 };
 
